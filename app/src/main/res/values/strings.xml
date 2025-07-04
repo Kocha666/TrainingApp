@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TrainingApp</string>
+    <string name="training_description">Training description goes here</string>
+    <string name="training_time">20 min</string>
+    <string name="training_name">Let\'s do it</string>
+    <string name="training_type">Cardio</string>
 </resources>
