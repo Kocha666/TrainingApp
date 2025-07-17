@@ -4,4 +4,5 @@
     <string name="training_time">20 min</string>
     <string name="training_name">Let\'s do it</string>
     <string name="training_type">Cardio</string>
+    <string name="search_for_workouts">Search for workouts</string>
 </resources>
