@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/training_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/training_time"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-light"
+        android:padding="10dp"
+        android:textSize="16sp" />
+
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/training_video"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+   >
+
+    </androidx.media3.ui.PlayerView>
+
+
+</LinearLayout>
+
+
