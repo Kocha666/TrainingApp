@@ -1,14 +1,13 @@
 package com.example.trainingapp.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.trainingapp.data.ApiFactory
 import com.example.trainingapp.domain.TrainingItem
 import androidx.lifecycle.viewModelScope
+import com.example.trainingapp.domain.UIState
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 
 class MainViewModel : ViewModel() {
@@ -17,24 +16,34 @@ class MainViewModel : ViewModel() {
     private val _trainings = MutableLiveData<List<TrainingItem>>()
     val trainings: LiveData<List<TrainingItem>> = _trainings
 
+    // Живые данные для состояний загрузки
+    private val _state = MutableLiveData<UIState>()
+    val state: LiveData<UIState> = _state
+
     // Метод для получения данных о тренировках
     fun fetchTrainings() {
-        // Логирование перед началом работы
-        Log.d("MainViewModel", "before coroutine")
 
-        // Запуск корутины для сетевого запроса
+        // Показываем индикатор загрузки
+        _state.value = UIState.Loading
+
+        // Запуск корутины
         viewModelScope.launch {
 
             try {
-                // Проверка, что корутина срабатывает
-                Log.d("MainViewModel", "Inside coroutine")
-
                 // Получаем список тренировок из API
                 val response = ApiFactory.apiService.getWorkouts()
-                _trainings.postValue(response)
+
+                // Если данные есть, то показываем их, иначе - пустой список
+                if (response.isNotEmpty()) {
+                    _trainings.postValue(response)
+                    _state.value = UIState.Success
+                } else {
+                    _state.value = UIState.Empty  // Если данных нет, показываем пустой экран
+                }
             } catch (e: Exception) {
-                // Обрабатываем ошибки
-                Log.d("MainViewModel", e.toString())
+                _state.value = UIState.Error(
+                    e.message ?: "Error"
+                )  // В случае ошибки показываем сообщение об ошибке
             }
         }
     }

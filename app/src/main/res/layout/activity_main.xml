@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="10dp"
     tools:context=".presentation.MainActivity">
 
 
@@ -14,24 +14,86 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:queryHint="@string/search_for_workouts"
+        android:layout_margin="10dp"
+        android:text="@string/search_for_workouts"
         app:iconifiedByDefault="false" />
 
-    <Spinner
-        android:id="@+id/spinner_filter"
+    <RadioGroup
+        android:id="@+id/radio_group_trainings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
 
-        />
+        <RadioButton
+            android:id="@+id/radio_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/all_trainings"
+            android:textColor="@color/black" />
 
+        <RadioButton
+            android:id="@+id/radio_workout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/workout"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/radio_stream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/live_stream"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/radio_complex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/complex"
+            android:textColor="@color/black" />
+
+
+    </RadioGroup>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminate="true" />
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/error_message"
+        android:textSize="30sp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark" />
+
+    <TextView
+        android:id="@+id/empty_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_message"
+        android:textSize="30sp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textColor="@android:color/darker_gray" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_trainings_cards"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/training_item" />
 
