@@ -5,4 +5,10 @@
     <string name="training_name">Let\'s do it</string>
     <string name="training_type">Cardio</string>
     <string name="search_for_workouts">Search for workouts</string>
+    <string name="complex">комплекс</string>
+    <string name="live_stream">эфир</string>
+    <string name="workout">тренировка</string>
+    <string name="all_trainings">все</string>
+    <string name="error_message">Error</string>
+    <string name="empty_message">Empty list</string>
 </resources>
