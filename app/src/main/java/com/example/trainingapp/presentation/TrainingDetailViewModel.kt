@@ -4,12 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.trainingapp.data.ApiFactory
-import com.example.trainingapp.domain.TrainingVideo
-import com.example.trainingapp.domain.UIState
+import com.example.trainingapp.data.TrainingListRepositoryImpl
+import com.example.trainingapp.domain.entity.TrainingVideo
+import com.example.trainingapp.domain.entity.UIState
+import com.example.trainingapp.domain.usecases.GetVideoUseCase
 import kotlinx.coroutines.launch
 
 class TrainingDetailViewModel : ViewModel() {
+
+
+    private val repository = TrainingListRepositoryImpl()
+
+    private val getVideoUseCase = GetVideoUseCase(repository)
 
     private val _trainingVideo = MutableLiveData<TrainingVideo>()
     val trainingVideo: LiveData<TrainingVideo> = _trainingVideo
@@ -26,7 +32,7 @@ class TrainingDetailViewModel : ViewModel() {
             _state.value = UIState.Loading
             try {
                 // Получаем тренирвку по айди из API
-                val videoTraining = ApiFactory.apiService.getVideo(id)
+                val videoTraining = getVideoUseCase.getVideo(id)
                 if (videoTraining != null) {
                     //пушим данные в лайв дату
                     _trainingVideo.postValue(videoTraining)

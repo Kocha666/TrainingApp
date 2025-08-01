@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.trainingapp.R
 import com.example.trainingapp.databinding.ActivityMainBinding
-import com.example.trainingapp.domain.UIState
+import com.example.trainingapp.domain.entity.UIState
 
 
 class MainActivity : AppCompatActivity() {

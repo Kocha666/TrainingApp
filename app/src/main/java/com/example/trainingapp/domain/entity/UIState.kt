@@ -1,5 +1,4 @@
-package com.example.trainingapp.domain
-
+package com.example.trainingapp.domain.entity
 
 sealed class UIState {
     object Loading : UIState()

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
 import com.example.trainingapp.data.ApiFactory
 import com.example.trainingapp.databinding.TrainingVideoActivityBinding
-import com.example.trainingapp.domain.UIState
+import com.example.trainingapp.domain.entity.UIState
 
 
 class TrainingDetailActivity : AppCompatActivity() {

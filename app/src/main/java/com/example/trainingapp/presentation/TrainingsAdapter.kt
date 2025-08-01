@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainingapp.databinding.TrainingItemBinding
-import com.example.trainingapp.domain.TrainingItem
+import com.example.trainingapp.domain.entity.TrainingItem
 
 class TrainingsAdapter(
     private var trainingList: List<TrainingItem>,

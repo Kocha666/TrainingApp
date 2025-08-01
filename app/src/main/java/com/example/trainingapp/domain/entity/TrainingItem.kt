@@ -1,4 +1,4 @@
-package com.example.trainingapp.domain
+package com.example.trainingapp.domain.entity
 
 data class TrainingItem (
     val id: Int,

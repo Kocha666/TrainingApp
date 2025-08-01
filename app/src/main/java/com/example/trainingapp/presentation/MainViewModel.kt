@@ -3,14 +3,20 @@ package com.example.trainingapp.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.trainingapp.data.ApiFactory
-import com.example.trainingapp.domain.TrainingItem
+import com.example.trainingapp.domain.entity.TrainingItem
 import androidx.lifecycle.viewModelScope
-import com.example.trainingapp.domain.UIState
+import com.example.trainingapp.data.TrainingListRepositoryImpl
+import com.example.trainingapp.domain.entity.UIState
+import com.example.trainingapp.domain.usecases.GetWorkoutsUseCase
 import kotlinx.coroutines.launch
 
 
 class MainViewModel : ViewModel() {
+
+
+    private val repository = TrainingListRepositoryImpl()
+
+    private val getWorkoutsUseCase = GetWorkoutsUseCase(repository)
 
     // Живые данные для списка тренировок
     private val _trainings = MutableLiveData<List<TrainingItem>>()
@@ -31,7 +37,7 @@ class MainViewModel : ViewModel() {
 
             try {
                 // Получаем список тренировок из API
-                val response = ApiFactory.apiService.getWorkouts()
+                val response = getWorkoutsUseCase.getWorkouts()
 
                 // Если данные есть, то показываем их, иначе - пустой список
                 if (response.isNotEmpty()) {

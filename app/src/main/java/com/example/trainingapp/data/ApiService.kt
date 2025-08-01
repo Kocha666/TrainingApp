@@ -1,7 +1,7 @@
 package com.example.trainingapp.data
 
-import com.example.trainingapp.domain.TrainingItem
-import com.example.trainingapp.domain.TrainingVideo
+import com.example.trainingapp.domain.entity.TrainingItem
+import com.example.trainingapp.domain.entity.TrainingVideo
 import retrofit2.http.GET
 import retrofit2.http.Query
 
