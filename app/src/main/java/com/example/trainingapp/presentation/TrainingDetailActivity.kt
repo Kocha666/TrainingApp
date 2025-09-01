@@ -12,7 +12,6 @@ import androidx.media3.common.MediaItem
 import com.example.trainingapp.databinding.TrainingVideoActivityBinding
 import javax.inject.Inject
 
-
 class TrainingDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TrainingDetailViewModel

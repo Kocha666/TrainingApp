@@ -12,7 +12,6 @@ import com.example.trainingapp.R
 import com.example.trainingapp.databinding.ActivityMainBinding
 import javax.inject.Inject
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel

@@ -9,7 +9,6 @@ import com.example.trainingapp.domain.usecases.GetWorkoutsUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 class MainViewModel @Inject constructor(
     private val getWorkoutsUseCase: GetWorkoutsUseCase
 ) : ViewModel() {
