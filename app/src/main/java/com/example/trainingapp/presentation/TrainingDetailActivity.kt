@@ -9,25 +9,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
-import com.example.trainingapp.data.ApiFactory
 import com.example.trainingapp.databinding.TrainingVideoActivityBinding
-import com.example.trainingapp.domain.entity.UIState
+import javax.inject.Inject
 
 
 class TrainingDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TrainingDetailViewModel
     private lateinit var binding: TrainingVideoActivityBinding
-
     private var exoPlayer: ExoPlayer? = null
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (application as TrainingApp).component
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         binding = TrainingVideoActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Инициализация ViewModel
-        viewModel = ViewModelProvider(this)[TrainingDetailViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[TrainingDetailViewModel::class.java]
 
         // Получаем данные тренировки из Intent
         val trainingId = intent.getIntExtra(TRAINING_ID, 0)
@@ -60,46 +66,40 @@ class TrainingDetailActivity : AppCompatActivity() {
         // Наблюдаем за LiveData для состояний UI
         viewModel.state.observe(this, Observer { state ->
             when (state) {
-                UIState.Empty -> {
+                Empty -> {
                     binding.progressBar.visibility = View.GONE
                     binding.errorMessage.visibility = View.GONE
                     binding.emptyMessage.visibility = View.VISIBLE
                 }
-
-                is UIState.Error -> {
+                is Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.errorMessage.visibility = View.VISIBLE
                     binding.emptyMessage.visibility = View.GONE
                     binding.errorMessage.text = state.message
-                }
 
-                UIState.Loading -> {
+                }
+                Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.errorMessage.visibility = View.GONE
                     binding.emptyMessage.visibility = View.GONE
                 }
-
-                UIState.Success -> {
+                Success -> {
                     binding.progressBar.visibility = View.GONE
                     binding.errorMessage.visibility = View.GONE
                     binding.emptyMessage.visibility = View.GONE
                 }
             }
         })
-
-
     }
 
     // Воспроизведение видео с помощью ExoPlayer (Media3)
-    private fun playVideo(videoUrl: String) {
-        // Инициализируем ExoPlayer (из Media3)
+    private fun playVideo(link: String) {
 
-        val fullUrl =
-            ApiFactory.BASE_URL + videoUrl.trimStart('/')  // Убираем ведущий слэш, если есть
+        // Инициализируем ExoPlayer (из Media3)
         exoPlayer = ExoPlayer.Builder(this).build()
 
         // Устанавливаем ссылку на видео в ExoPlayer
-        val mediaItem = MediaItem.fromUri(fullUrl)
+        val mediaItem = MediaItem.fromUri(link)
         exoPlayer?.setMediaItem(mediaItem)
 
         // Подготовка и запуск плеера
