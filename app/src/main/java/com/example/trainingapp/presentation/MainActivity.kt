@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.trainingapp.R
 import com.example.trainingapp.databinding.ActivityMainBinding
-import com.example.trainingapp.domain.entity.UIState
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,17 +19,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: TrainingsAdapter
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (application as TrainingApp).component
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Инициализируем ViewModel
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
 
         //  Запускаем загрузку данных
         viewModel.fetchTrainings()
-
 
         // Настройка RecyclerView
         adapter = TrainingsAdapter(emptyList()) {
@@ -51,36 +58,32 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.state.observe(this, Observer {
             when (it) {
-                UIState.Empty -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.recyclerViewTrainingsCards.visibility = View.GONE
-                    binding.errorMessage.visibility = View.GONE
-                    binding.emptyMessage.visibility = View.VISIBLE
-                }
-
-                is UIState.Error -> {
+                is Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.recyclerViewTrainingsCards.visibility = View.GONE
                     binding.errorMessage.visibility = View.VISIBLE
                     binding.emptyMessage.visibility = View.GONE
                     binding.errorMessage.text = it.message
                 }
-
-                UIState.Loading -> {
+                Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.recyclerViewTrainingsCards.visibility = View.GONE
                     binding.errorMessage.visibility = View.GONE
                     binding.emptyMessage.visibility = View.GONE
                 }
-
-                UIState.Success -> {
+                Success -> {
                     binding.progressBar.visibility = View.GONE
                     binding.recyclerViewTrainingsCards.visibility = View.VISIBLE
                     binding.errorMessage.visibility = View.GONE
                     binding.emptyMessage.visibility = View.GONE
                 }
+                Empty -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.recyclerViewTrainingsCards.visibility = View.GONE
+                    binding.errorMessage.visibility = View.GONE
+                    binding.emptyMessage.visibility = View.VISIBLE
+                }
             }
-
         })
 
         viewModel.trainings.observe(this, Observer { trainings ->
@@ -92,7 +95,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.radioAll.isChecked = true
         // Устанавливаем слушатель для выбора типа тренировки в RadioGroup
         setupRadioGroupListener()
         // Настройка SearchView для поиска по названию тренировки
